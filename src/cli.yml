@@ -1,0 +1,11 @@
+name: crypto-rs
+versiom: 1.0
+author: Alexandre C
+about: Rust cryptocurrency prices on CLI.
+args:
+  - convert:
+      short: c
+      long: convert
+      value_name: CURRENCY
+      help: Convert to your currency
+      takes_value: true
