@@ -1,5 +1,5 @@
 name: crypto-rs
-version: 1.0
+version: "1.0"
 author: Alexandre C
 about: Rust cryptocurrency prices on CLI.
 args:
