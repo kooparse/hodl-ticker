@@ -1,7 +1,7 @@
 # Crypto-rs
 
 ## Screenshot
-<img width="798" alt="screen shot 2017-12-09 at 2 24 25 pm" src="https://user-images.githubusercontent.com/2859122/33796036-05b7b7c8-dced-11e7-96a9-8637e00e6cb0.png">
+<img width="682" alt="screen shot 2017-12-28 at 12 22 02 pm" src="https://user-images.githubusercontent.com/2859122/34409421-07aa0a36-ebca-11e7-80e6-6c50d63e960a.png">
 
 
 ## Install && Running
