@@ -21,6 +21,11 @@ $ crypto-rs -c eur
 $ crypto-rs -c jpy
 ```
 
+You can use the `-d` (or `--desired`) to choose which cryptocurrencies to see.
+```
+$ crypto-rs -d Bitcoin "Bitcoin Cash"
+```
+
 You can use the `-h` (or `--help`) to find all valid options of crypto-rs
 
 

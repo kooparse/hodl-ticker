@@ -18,7 +18,7 @@ use clap::App;
 // Limit our results to 10 crypto
 const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker?limit=10";
 
-fn make_uri(matches: clap::ArgMatches) -> (String, String) {
+fn make_uri(matches: &clap::ArgMatches) -> (String, String) {
     let currency: &str = matches.value_of("convert").unwrap_or("usd");
     (format!("{}&convert={}", ENDPOINT, currency), String::from(currency))
 }
@@ -26,9 +26,13 @@ fn make_uri(matches: clap::ArgMatches) -> (String, String) {
 fn main() {
     let yaml = load_yaml!("cli.yml");
     let matches = App::from_yaml(yaml).get_matches();
-    let (uri, currency) = make_uri(matches);
+    let (uri, currency) = make_uri(&matches);
 
     let data = provider::get(&uri).unwrap_or(vec![]);
-    let l = layout::construct(data, currency);
+    let mut desired = vec![];
+    if let Some(vs) = matches.values_of("desired") {
+        desired = vs.collect();
+    }
+    let l = layout::construct(data, desired, currency);
     l.printstd();
 }
