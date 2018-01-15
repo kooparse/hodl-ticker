@@ -13,6 +13,6 @@ args:
       short: d
       long: desired
       value_name: CURRENCIES
-      help: desired currency names (e.g. -d Bitcoin "Bitcoin Cash")
+      help: Desired currency names (e.g. -d Bitcoin "Bitcoin Cash")
       multiple: true
       takes_value: true

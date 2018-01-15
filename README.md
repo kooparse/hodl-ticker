@@ -8,7 +8,7 @@
 - Fork or download this repository.
 - `cd` to the project's location
 - run `cargo build --release`
-- run `./target/release/rust-crypto -h`
+- run `./target/release/cryptocurrency-rs -h`
 
 ## Options
 You can use the `-c` (or `--convert`) with the fiat currency symbol to find in terms of another currency.
@@ -16,17 +16,17 @@ The default currency is USD and it supports AUD, BRL, CAD, CHF, CLP, CNY, CZK, D
 
 ```
 // Convert prices to Euro
-$ crypto-rs -c eur
+$ cryptocurrency-rs -c eur
 // Convert prices to Yenn
-$ crypto-rs -c jpy
+$ cryptorrency-rs -c jpy
 ```
 
 You can use the `-d` (or `--desired`) to choose which cryptocurrencies to see.
 ```
-$ crypto-rs -d Bitcoin "Bitcoin Cash"
+$ cryptocurrency-rs -d Bitcoin "Bitcoin Cash"
 ```
 
-You can use the `-h` (or `--help`) to find all valid options of crypto-rs
+You can use the `-h` (or `--help`) to find all valid options of cryptocurrency-rs
 
 
 This project is highly inspired by coinmon: https://github.com/bichenkk/coinmon
