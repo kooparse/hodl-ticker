@@ -16,3 +16,9 @@ args:
       help: Desired currency names (e.g. -d Bitcoin "Bitcoin Cash")
       multiple: true
       takes_value: true
+  - limit:
+      short: l
+      long: limit
+      value_name: LIMIT
+      help: "Limit your number of results (default: 10)"
+      takes_value: true

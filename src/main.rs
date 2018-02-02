@@ -15,12 +15,12 @@ mod layout;
 
 use clap::App;
 
-// Limit our results to 10 crypto
-const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker?limit=10";
+const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker";
 
 fn make_uri(matches: &clap::ArgMatches) -> (String, String) {
     let currency: &str = matches.value_of("convert").unwrap_or("usd");
-    (format!("{}&convert={}", ENDPOINT, currency), String::from(currency))
+    let limit: &str = matches.value_of("limit").unwrap_or("10");
+    (format!("{}?limit={}&convert={}", ENDPOINT, limit, currency), String::from(currency))
 }
 
 fn main() {
