@@ -4,6 +4,8 @@ version = "0.1.0"
 authors = ["alex <kooparse@protonmail.com>"]
 
 [dependencies]
+cursive="0.8"
+cursive_table_view="0.4.2"
 term = "0.4.6"
 prettytable-rs = "0.6"
 reqwest = "0.8.1"
@@ -11,3 +13,4 @@ serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
 clap = {version = "2.29", features = ["yaml"]}
+clippy = { version = "*", optional = true }

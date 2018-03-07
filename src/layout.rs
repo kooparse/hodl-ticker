@@ -1,106 +1,122 @@
 use std::collections::HashSet;
+use helpers;
 use crypto::Money;
-use prettytable;
-use prettytable::Table;
-use prettytable::row::Row;
-use prettytable::cell::Cell;
-use term::{Attr, color};
+use provider;
 
-fn format_percent(percent: &str) -> prettytable::cell::Cell {
-    let number: f32 = percent.parse().unwrap();
-    if number >= 0.0 {
-        return Cell::new(&format!("{}{} %", "+", percent))
-            .with_style(Attr::ForegroundColor(color::GREEN));
+use cursive_table_view;
+use std::cmp::Ordering;
+use cursive::Cursive;
+use cursive::traits::*;
+use cursive::align::HAlign;
+use cursive::views::{Dialog, TextView, TextContent};
+use cursive_table_view::{TableView, TableViewItem};
+
+type MoneyTable = TableView<Money, Column>;
+
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+pub enum Column {
+    Rank,
+    Coin,
+    Price,
+    Change24,
+    Change1,
+    MarketCap,
+}
+
+impl TableViewItem<Column> for Money {
+    fn to_column(&self, column: Column) -> String {
+        let price = self.get_price(true);
+        let market_cap = self.get_mark_cap(true);
+        let percent_24 = self.get_percent_24();
+        let percent_1 = self.get_percent_1();
+
+        let col = match column {
+            Column::Rank => &self.rank,
+            Column::Coin => &self.name,
+            Column::Price => &price,
+            Column::Change24 => &percent_24,
+            Column::Change1 => &percent_1,
+            Column::MarketCap => &market_cap,
+        };
+        col.to_string()
     }
 
-    Cell::new(&format!("{} %", percent))
-        .with_style(Attr::ForegroundColor(color::RED))
-}
-
-fn divmod(n: i32, d: i32) -> (i32, i32) {
-    (n / d, n % d)
-}
-
-fn format_price(nums: &str) -> String {
-    let number: f32 = nums.parse().unwrap();
-    let (dollars, cents) = divmod((number * 100.) as i32, 100);
-    let mut s = String::new();
-    for (i ,char) in dollars.to_string().chars().rev().enumerate() {
-        if i % 3 == 0 && i != 0 {
-            s.insert(0, ',');
+    fn cmp(&self, other: &Self, column: Column) -> Ordering
+    where
+        Self: Sized,
+    {
+        match column {
+            Column::Rank => {
+                let rank = self.rank.parse::<i32>().unwrap();
+                return rank.cmp(&other.rank.parse().unwrap());
+            }
+            Column::Price => self.get_price(false).cmp(&other.get_price(false)),
+            _ => self.rank.cmp(&other.rank),
         }
-        s.insert(0, char);
     }
-    format!("${}.{}", s, cents)
 }
 
-fn format_bignum(nums: &str) -> String {
-    let number: f64 = nums.parse().unwrap();
-    let mut number = number as i64;
-    let suffixes = ["K", "M", "B", "T"];
-    let mut suffix = "";
-    if number > 1000 {
-        for s in &suffixes {
-            suffix = s;
-            if number < 1_000_000 { break }
-            number /= 1_000;
-        }
-    }
-    format!("{:.3}{}", (number as f64) / 1000., suffix)
+fn format_col(title: &str) -> String {
+    format!("{}", title.to_uppercase())
 }
 
-pub fn construct(data: Vec<Money>, desired: Vec<&str>, currency: String) -> Table {
-    let mut des : HashSet<String> = HashSet::new();
-    des.extend(desired.into_iter().map(|d| d.to_owned()));
 
-    let mut table = Table::new();
-
-    let headers = [
-        "rank",
-        "coin",
-        &format!("price ({})", currency),
-        "change (24h)",
-        "change(1h)",
-        &format!("market cap ({})", currency),
-    ];
-
-    let headers: Vec<Cell> = headers
-        .iter()
-        .map(|header| {
-            Cell::new(&header.to_uppercase()).with_style(Attr::Bold).with_style(
-                Attr::ForegroundColor(color::YELLOW),
-            )
+pub fn create_table(data: Vec<Money>) -> MoneyTable {
+    TableView::<Money, Column>::new()
+        .column(Column::Rank, format_col("Rank"), |c| {
+            c.align(HAlign::Left).width_percent(5)
         })
-        .collect();
+        .column(Column::Price, format!("Price").to_uppercase(), |c| {
+            c.align(HAlign::Left).width_percent(20)
+        })
+        .column(Column::Change24, format_col("Change 24h"), |c| {
+            c.align(HAlign::Right).width_percent(15)
+        })
+        .column(Column::Change1, format_col("Change 1h"), |c| {
+            c.align(HAlign::Right).width_percent(15)
+        })
+        .column(Column::MarketCap, format_col("Market Cap"), |c| {
+            c.align(HAlign::Right)
+        })
+        .items(data)
+}
 
-    table.add_row(Row::new(headers));
+pub struct Layout {
+    pub siv: Cursive,
+    pub currency: String,
+    pub content: TextContent,
+}
 
-    for item in data.iter() {
-        if !des.is_empty() && !des.contains(&item.name) {
-            continue;
-        }
 
-        let price = match item.price_eur {
-            Some(ref x) => x,
-            None => &item.price_usd,
-        };
+impl Layout {
+    pub fn new(desired: Vec<&str>, currency: String) -> Layout {
+        let mut siv = Cursive::new();
 
-        let cap = match item.market_cap_eur {
-            Some(ref x) => x,
-            None => &item.market_cap_usd,
-        };
 
-        table.add_row(Row::new(vec![
-            Cell::new(&item.rank),
-            Cell::new(&item.name),
-            Cell::new(&format_price(price))
-                .with_style(Attr::Bold)
-                .with_style(Attr::ForegroundColor(color::BLUE)),
-            format_percent(&item.percent_change_24h),
-            format_percent(&item.percent_change_1h),
-            Cell::new(&format_bignum(cap)),
-        ]));
+        let content = TextContent::new("hey");
+        let mut layout = Layout { siv, currency, content };
+
+        layout.siv.set_fps(30);
+        layout.siv.add_global_callback('q', |s| s.quit());
+        layout.siv.add_layer(TextView::new_with_content(content.clone()));
+
+        return layout;
     }
 
-    table
+    // pub fn fill_table(&self, data: Vec<Money>) -> MoneyTable {
+    //     create_table(data)
+    // }
+
+    pub fn run(&mut self) {
+        self.siv.run();
+    }
+
+    pub fn update(&mut self, data: Vec<Money>) {
+        // self.content = create_table(data);
+
+        // self.siv
+        //     .call_on_id("main_layout", move |view: &mut Dialog| {
+        //         view.set_content(self.content.clone());
+        //     });
+    }
 }
