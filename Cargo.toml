@@ -1,13 +1,16 @@
 [package]
 name = "rust-crypto"
-version = "0.1.0"
-authors = ["alex <kooparse@protonmail.com>"]
+version = "1.0.0"
+authors = ["Alexandre Chêne <kooparse@protonmail.com>"]
 
 [dependencies]
+clippy = { version = "*", optional = true }
+termion = "1.5.1"
 term = "0.4.6"
-prettytable-rs = "0.6"
 reqwest = "0.8.1"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
 clap = {version = "2.29", features = ["yaml"]}
+# Unpublish version 0.6.8 for fixing macro bug
+prettytable-rs = { git = "https://github.com/phsym/prettytable-rs" }
