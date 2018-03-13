@@ -3,7 +3,10 @@ name = "hodl-ticker"
 description="Rust cryptocurrency prices on CLI"
 version = "1.0.0"
 authors = ["Alexandre Chêne <kooparse@protonmail.com>"]
+license="MIT"
 repository="https://github.com/kooparse/hodl-ticker"
+readme = "README.md"
+keywords = ["cryptocurrency", "ticker", "bitcoin", "ethereum"]
 
 [dependencies]
 clippy = { version = "*", optional = true }
