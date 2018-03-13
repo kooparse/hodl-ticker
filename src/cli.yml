@@ -1,6 +1,6 @@
 name: crypto-rs
 version: "1.0"
-author: Alexandre C
+author: Alexandre Chêne
 about: Rust cryptocurrency prices on CLI.
 args:
   - convert:
@@ -9,6 +9,10 @@ args:
       value_name: CURRENCY
       help: Convert to your currency
       takes_value: true
+  - watch:
+      short: w
+      long: watch
+      help: Active watch mode
   - desired:
       short: d
       long: desired

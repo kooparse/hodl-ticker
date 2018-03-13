@@ -1,5 +1,5 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
-#![cfg_attr(feature="clippy", plugin(clippy))]
+#![cfg_attr(feature = "clippy", feature(plugin))]
+#![cfg_attr(feature = "clippy", plugin(clippy))]
 
 extern crate prettytable;
 extern crate reqwest;
@@ -61,6 +61,12 @@ fn main() {
 
     // Clear terminal screen
     clear_screen();
+
+    if !matches.is_present("watch") {
+        let data = provider::get(&uri.clone()).unwrap_or_else(|_| vec![]);
+        let layout = Layout::new(data, desired.clone(), &currency);
+        return layout.print();
+    }
 
     thread::spawn(move || loop {
         let data = provider::get(&uri.clone()).unwrap_or_else(|_| vec![]);
