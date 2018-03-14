@@ -28,12 +28,12 @@ You can use the `-f` (or `--filter`) to choose which cryptocurrencies to see.
 $ hodl-ticker -f Bitcoin "Bitcoin Cash"
 ```
 
-You can use the `-l` to limit the number of currencies fetched.
+You can use the `-l` (or `--limit`) to limit the number of currencies fetched.
 ```
 $ hodl-ticker -l 20
 ```
 
-You can use the `-w` to trigger the watch mode, data will be fetch every 5 secs.
+You can use the `-w` (or `--watch`) to trigger the watch mode, data will be fetch every 5 secs.
 ```
 $ hodl-ticker -w
 ```

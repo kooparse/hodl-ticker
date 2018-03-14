@@ -1,5 +1,5 @@
-name: crypto-rs
-version: "1.0"
+name: hodl-ticker
+version: "1.4.0"
 author: Alexandre Chêne
 about: Rust cryptocurrency prices on CLI.
 args:
