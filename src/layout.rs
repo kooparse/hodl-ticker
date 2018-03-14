@@ -12,8 +12,13 @@ pub struct Layout {
 }
 
 impl Layout {
-    pub fn new(data: Vec<Money>, filter_list: Vec<&str>, currency: &str) -> Layout {
-        let filter_list: HashSet<String> = filter_list.into_iter().map(|d| d.to_owned()).collect();
+    pub fn new(
+        data: Vec<Money>,
+        filter_list: Vec<&str>,
+        currency: &str,
+    ) -> Layout {
+        let filter_list: HashSet<String> =
+            filter_list.into_iter().map(|d| d.to_owned()).collect();
 
         let headers = [
             "rank",
@@ -49,7 +54,9 @@ impl Layout {
         table.add_row(Row::new(headers));
 
         for item in &self.data {
-            if !&self.filter_list.is_empty() && !&self.filter_list.contains(&item.name) {
+            if !&self.filter_list.is_empty()
+                && !&self.filter_list.contains(&item.name)
+            {
                 continue;
             }
 

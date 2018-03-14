@@ -17,7 +17,10 @@ impl LayoutCell {
         self
     }
 
-    pub fn percent_color(&mut self, (text, is_positive): (String, bool)) -> &mut LayoutCell {
+    pub fn percent_color(
+        &mut self,
+        (text, is_positive): (String, bool),
+    ) -> &mut LayoutCell {
         self.set(&text);
 
         if is_positive {
