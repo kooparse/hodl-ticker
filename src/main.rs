@@ -54,9 +54,9 @@ fn main() {
     let (uri, currency) = make_uri(&matches);
     let (tx, rx) = mpsc::channel();
 
-    let mut desired = vec![];
-    if let Some(vs) = matches.values_of("desired") {
-        desired = vs.collect();
+    let mut filterList = vec![];
+    if let Some(list) = matches.values_of("filter") {
+        filterList = list.collect();
     }
 
     // Clear terminal screen
@@ -64,7 +64,7 @@ fn main() {
 
     if !matches.is_present("watch") {
         let data = provider::get(&uri.clone()).unwrap_or_else(|_| vec![]);
-        let layout = Layout::new(data, desired.clone(), &currency);
+        let layout = Layout::new(data, filterList.clone(), &currency);
         return layout.print();
     }
 
@@ -77,7 +77,7 @@ fn main() {
 
     for data in rx {
         erase_screen();
-        let layout = Layout::new(data, desired.clone(), &currency);
+        let layout = Layout::new(data, filterList.clone(), &currency);
         layout.print();
     }
 }

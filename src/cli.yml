@@ -13,10 +13,10 @@ args:
       short: w
       long: watch
       help: Active watch mode
-  - desired:
-      short: d
-      long: desired
-      value_name: CURRENCIES
-      help: Desired currency names (e.g. -d Bitcoin "Bitcoin Cash")
+  - filter:
+      short: f
+      long: filter
+      value_name: FILTER
+      help: Currency filter (e.g. -f Bitcoin "Bitcoin Cash")
       multiple: true
       takes_value: true

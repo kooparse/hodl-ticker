@@ -8,13 +8,12 @@ use prettytable::row::Row;
 pub struct Layout {
     headers: Vec<String>,
     data: Vec<Money>,
-    desired: HashSet<String>,
+    filter_list: HashSet<String>,
 }
 
 impl Layout {
-    pub fn new(data: Vec<Money>, desired: Vec<&str>, currency: &str) -> Layout {
-        let mut des: HashSet<String> = HashSet::new();
-        des.extend(desired.into_iter().map(|d| d.to_owned()));
+    pub fn new(data: Vec<Money>, filter_list: Vec<&str>, currency: &str) -> Layout {
+        let filter_list: HashSet<String> = filter_list.into_iter().map(|d| d.to_owned()).collect();
 
         let headers = [
             "rank",
@@ -30,7 +29,7 @@ impl Layout {
         Layout {
             headers,
             data,
-            desired: des,
+            filter_list,
         }
     }
 
@@ -50,7 +49,7 @@ impl Layout {
         table.add_row(Row::new(headers));
 
         for item in &self.data {
-            if !&self.desired.is_empty() && !&self.desired.contains(&item.name) {
+            if !&self.filter_list.is_empty() && !&self.filter_list.contains(&item.name) {
                 continue;
             }
 
