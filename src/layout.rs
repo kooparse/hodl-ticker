@@ -1,32 +1,35 @@
 use std::collections::HashSet;
 use crypto::Money;
 use cell::LayoutCell;
+use currency;
+use currency::Currency;
 
 use prettytable::Table;
 use prettytable::row::Row;
 
-pub struct Layout {
+pub struct Layout<'a> {
     headers: Vec<String>,
     data: Vec<Money>,
     filter_list: HashSet<String>,
+    currency: Currency<'a>,
 }
 
-impl Layout {
+impl<'a> Layout<'a> {
     pub fn new(
         data: Vec<Money>,
         filter_list: Vec<&str>,
-        currency: &str,
-    ) -> Layout {
+        currency: currency::Currency<'a>,
+    ) -> Layout<'a> {
         let filter_list: HashSet<String> =
             filter_list.into_iter().map(|d| d.to_owned()).collect();
 
         let headers = [
             "rank",
             "coin",
-            &format!("price ({})", currency),
+            &format!("price ({})", currency.get_symbol()),
             "change (24h)",
             "change(1h)",
-            &format!("market cap ({})", currency),
+            &format!("market cap ({})", currency.get_symbol()),
         ].iter()
             .map(|item| item.to_uppercase())
             .collect::<Vec<String>>();
@@ -35,6 +38,7 @@ impl Layout {
             headers,
             data,
             filter_list,
+            currency,
         }
     }
 
@@ -60,16 +64,18 @@ impl Layout {
                 continue;
             }
 
+            let price = item.get_price(self.currency.clone());
+            let market_cap = item.get_market_cap(self.currency.clone());
             let percent_24 = item.get_percent_24();
             let percent_1 = item.get_percent_1();
 
             table.add_row(Row::new(vec![
                 cell.set_and_build(&item.rank),
                 cell.set_and_build(&item.name),
-                cell.set(&item.get_price()).bold().blue().build(),
+                cell.set(&price).bold().blue().build(),
                 cell.percent_color(percent_24).build(),
                 cell.percent_color(percent_1).build(),
-                cell.set_and_build(&item.get_market_cap()),
+                cell.set_and_build(&market_cap),
             ]));
         }
 

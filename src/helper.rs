@@ -3,7 +3,7 @@ pub fn format_percent(percent: &str) -> (String, bool) {
     let is_positive = percent.is_sign_positive();
     let prefix = if is_positive { "+" } else { "" };
 
-    (format!("{}{} %", prefix, percent), is_positive)
+    (format!("{}{}%", prefix, percent), is_positive)
 }
 
 pub fn divmod(n: i32, d: i32) -> (i32, i32) {
@@ -20,7 +20,8 @@ pub fn format_price(nums: &str) -> String {
         }
         s.insert(0, char);
     }
-    format!("${}.{}", s, cents)
+
+    format!("{}.{}", s, cents)
 }
 
 pub fn format_bignum(nums: &str) -> String {

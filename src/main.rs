@@ -15,6 +15,7 @@ extern crate serde_json;
 
 mod provider;
 mod crypto;
+mod currency;
 mod layout;
 mod cell;
 mod helper;
@@ -24,16 +25,18 @@ use std::thread;
 use std::sync::mpsc;
 use clap::App;
 use layout::Layout;
+use currency::Currency;
 
+const DEFAULT_CURRENCY: &str = "usd";
 // Limit our results to 10 crypto
 const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker";
 
-fn make_uri(matches: &clap::ArgMatches) -> (String, String) {
-    let currency: &str = matches.value_of("convert").unwrap_or("usd");
-    let limit: &str = matches.value_of("limit").unwrap_or("10");
-    (
-        format!("{}?limit={}&convert={}", ENDPOINT, limit, currency),
-        String::from(currency),
+fn make_uri(currency: Currency, limit: &str) -> String {
+    format!(
+        "{}?limit={}&convert={}",
+        ENDPOINT,
+        limit,
+        currency.get_name()
     )
 }
 
@@ -52,7 +55,10 @@ fn erase_screen() {
 fn main() {
     let yaml = load_yaml!("cli.yml");
     let matches = App::from_yaml(yaml).get_matches();
-    let (uri, currency) = make_uri(&matches);
+    let limit: &str = matches.value_of("limit").unwrap_or("10");
+    let currency =
+        Currency::new(matches.value_of("convert").unwrap_or(DEFAULT_CURRENCY));
+    let uri = make_uri(currency.clone(), limit);
     let (tx, rx) = mpsc::channel();
 
     let mut filter_list = vec![];
@@ -65,7 +71,7 @@ fn main() {
 
     if !matches.is_present("watch") {
         let data = provider::get(&uri.clone()).unwrap_or_else(|_| vec![]);
-        let layout = Layout::new(data, filter_list.clone(), &currency);
+        let layout = Layout::new(data, filter_list.clone(), currency.clone());
         return layout.print();
     }
 
@@ -78,7 +84,7 @@ fn main() {
 
     for data in rx {
         erase_screen();
-        let layout = Layout::new(data, filter_list.clone(), &currency);
+        let layout = Layout::new(data, filter_list.clone(), currency.clone());
         layout.print();
     }
 }

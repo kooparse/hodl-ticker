@@ -14,13 +14,13 @@
 
 ## Options
 You can use the `-c` (or `--convert`) with the fiat currency symbol to find in terms of another currency.
-The default currency is USD and it supports AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK, EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW, MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SEK, SGD, THB, TRY, TWD, ZAR.
+The default currency is USD and it supports EUR, GBP and JPY.
 
 ```
 // Convert prices to Euro
 $ hodl-ticker -c eur
 // Convert prices to Yenn
-$ cryptorrency-rs -c jpy
+$ hodl-ticker -c jpy
 ```
 
 You can use the `-f` (or `--filter`) to choose which cryptocurrencies to see.
