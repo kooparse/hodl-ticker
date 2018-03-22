@@ -64,8 +64,8 @@ impl<'a> Layout<'a> {
                 continue;
             }
 
-            let price = item.get_price(self.currency.clone());
-            let market_cap = item.get_market_cap(self.currency.clone());
+            let price = item.get_price(&self.currency);
+            let market_cap = item.get_market_cap(&self.currency);
             let percent_24 = item.get_percent_24();
             let percent_1 = item.get_percent_1();
 

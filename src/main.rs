@@ -31,7 +31,7 @@ const DEFAULT_CURRENCY: &str = "usd";
 // Limit our results to 10 crypto
 const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker";
 
-fn make_uri(currency: Currency, limit: &str) -> String {
+fn make_uri(currency: &Currency, limit: &str) -> String {
     format!(
         "{}?limit={}&convert={}",
         ENDPOINT,
@@ -58,7 +58,7 @@ fn main() {
     let limit: &str = matches.value_of("limit").unwrap_or("10");
     let currency =
         Currency::new(matches.value_of("convert").unwrap_or(DEFAULT_CURRENCY));
-    let uri = make_uri(currency.clone(), limit);
+    let uri = make_uri(&currency, limit);
     let (tx, rx) = mpsc::channel();
 
     let mut filter_list = vec![];

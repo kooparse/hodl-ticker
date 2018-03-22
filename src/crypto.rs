@@ -20,7 +20,7 @@ pub struct Money {
 }
 
 impl Money {
-    pub fn get_price(&self, currency: Currency) -> String {
+    pub fn get_price(&self, currency: &Currency) -> String {
         let price = match currency.get_name() {
             "eur" => self.price_eur.clone(),
             "gbp" => self.price_gbp.clone(),
@@ -36,7 +36,7 @@ impl Money {
         format_price(price)
     }
 
-    pub fn get_market_cap(&self, currency: Currency) -> String {
+    pub fn get_market_cap(&self, currency: &Currency) -> String {
         let market_cap = match currency.get_name() {
             "eur" => self.market_cap_eur.clone(),
             "gbp" => self.market_cap_gbp.clone(),
