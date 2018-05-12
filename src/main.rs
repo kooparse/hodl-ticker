@@ -28,6 +28,7 @@ use layout::Layout;
 use currency::Currency;
 
 const DEFAULT_CURRENCY: &str = "usd";
+const SLEEP_DURATION: u64 = 20;
 // Limit our results to 10 crypto
 const ENDPOINT: &str = "https://api.coinmarketcap.com/v1/ticker";
 
@@ -79,7 +80,7 @@ fn main() {
         let data = provider::get(&uri.clone()).unwrap_or_else(|_| vec![]);
         tx.send(data).unwrap();
         // Every 5 sec
-        thread::sleep(Duration::new(5, 0));
+        thread::sleep(Duration::new(SLEEP_DURATION, 0));
     });
 
     for data in rx {
