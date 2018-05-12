@@ -9,7 +9,7 @@ readme = "README.md"
 keywords = ["cryptocurrency", "ticker", "bitcoin", "ethereum"]
 
 [dependencies]
-clippy = { version = "0.0.187", optional = true }
+clippy = { version = "*", optional = true }
 termion = "1.5.1"
 term = "0.4.6"
 reqwest = "0.8.1"
