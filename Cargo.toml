@@ -12,7 +12,7 @@ keywords = ["cryptocurrency", "ticker", "bitcoin", "ethereum"]
 clippy = { version = "*", optional = true }
 termion = "1.5.1"
 term = "0.4.6"
-reqwest = "0.8.1"
+reqwest = "0.9"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
