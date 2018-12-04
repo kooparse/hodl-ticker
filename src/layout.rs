@@ -4,8 +4,7 @@ use cell::LayoutCell;
 use currency;
 use currency::Currency;
 
-use prettytable::Table;
-use prettytable::row::Row;
+use prettytable::{Table, Row};
 
 pub struct Layout<'a> {
     headers: Vec<String>,
@@ -43,7 +42,7 @@ impl<'a> Layout<'a> {
     }
 
     pub fn print(&self) {
-        self.get_table().print_tty(false)
+        self.get_table().print_tty(false);
     }
 
     pub fn get_table(&self) -> Table {

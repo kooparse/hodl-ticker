@@ -1,4 +1,4 @@
-use prettytable::cell::Cell;
+use prettytable::Cell;
 use term::{color, Attr};
 
 pub struct LayoutCell {
