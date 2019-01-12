@@ -19,6 +19,10 @@ impl<'a> Currency<'a> {
                 currency,
                 symbol: "¥",
             },
+            "cny" => Currency {
+                currency,
+                symbol: "元",
+            },
             _ => Currency {
                 currency,
                 symbol: "$",
