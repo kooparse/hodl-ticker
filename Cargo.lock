@@ -347,7 +347,7 @@ dependencies = [
 
 [[package]]
 name = "hodl-ticker"
-version = "1.5.3"
+version = "1.5.4"
 dependencies = [
  "clap 2.31.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "clippy 0.0.198 (registry+https://github.com/rust-lang/crates.io-index)",
