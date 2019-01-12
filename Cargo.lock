@@ -250,7 +250,7 @@ dependencies = [
 
 [[package]]
 name = "hodl-ticker"
-version = "1.5.4"
+version = "1.5.5"
 dependencies = [
  "clap 2.31.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "prettytable-rs 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
