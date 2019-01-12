@@ -13,19 +13,19 @@ extern crate clap;
 extern crate serde_derive;
 extern crate serde_json;
 
-mod provider;
+mod cell;
 mod crypto;
 mod currency;
-mod layout;
-mod cell;
 mod helper;
+mod layout;
+mod provider;
 
-use std::time::Duration;
-use std::thread;
-use std::sync::mpsc;
+use crate::currency::Currency;
+use crate::layout::Layout;
 use clap::App;
-use layout::Layout;
-use currency::Currency;
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
 
 const DEFAULT_CURRENCY: &str = "usd";
 const SLEEP_DURATION: u64 = 20;

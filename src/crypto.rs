@@ -1,5 +1,5 @@
-use currency::Currency;
-use helper::{format_bignum, format_percent, format_price};
+use crate::currency::Currency;
+use crate::helper::{format_bignum, format_percent, format_price};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Money {

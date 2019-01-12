@@ -1,10 +1,10 @@
+use crate::cell::LayoutCell;
+use crate::crypto::Money;
+use crate::currency;
+use crate::currency::Currency;
 use std::collections::HashSet;
-use crypto::Money;
-use cell::LayoutCell;
-use currency;
-use currency::Currency;
 
-use prettytable::{Table, Row};
+use prettytable::{Row, Table};
 
 pub struct Layout<'a> {
     headers: Vec<String>,
@@ -29,9 +29,10 @@ impl<'a> Layout<'a> {
             "change (24h)",
             "change(1h)",
             &format!("market cap ({})", currency.get_symbol()),
-        ].iter()
-            .map(|item| item.to_uppercase())
-            .collect::<Vec<String>>();
+        ]
+        .iter()
+        .map(|item| item.to_uppercase())
+        .collect::<Vec<String>>();
 
         Layout {
             headers,
@@ -49,7 +50,8 @@ impl<'a> Layout<'a> {
         let mut table = Table::new();
         let mut cell = LayoutCell::new();
 
-        let headers = self.headers
+        let headers = self
+            .headers
             .iter()
             .map(|header| cell.set(header).bold().yellow().build())
             .collect();
