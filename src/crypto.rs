@@ -10,6 +10,7 @@ pub struct Money {
     pub price_eur: Option<String>,
     pub price_gbp: Option<String>,
     pub price_jpy: Option<String>,
+    pub price_cny: Option<String>,
     pub percent_change_1h: String,
     pub percent_change_24h: String,
     pub percent_change_7d: String,
@@ -17,6 +18,7 @@ pub struct Money {
     pub market_cap_eur: Option<String>,
     pub market_cap_gbp: Option<String>,
     pub market_cap_jpy: Option<String>,
+    pub market_cap_cny: Option<String>,
 }
 
 impl Money {
@@ -25,6 +27,7 @@ impl Money {
             "eur" => self.price_eur.clone(),
             "gbp" => self.price_gbp.clone(),
             "jpy" => self.price_jpy.clone(),
+            "cny" => self.price_cny.clone(),
             _ => self.price_usd.clone(),
         };
 
@@ -41,6 +44,7 @@ impl Money {
             "eur" => self.market_cap_eur.clone(),
             "gbp" => self.market_cap_gbp.clone(),
             "jpy" => self.market_cap_jpy.clone(),
+            "cny" => self.market_cap_cny.clone(),
             _ => self.market_cap_usd.clone(),
         };
 
