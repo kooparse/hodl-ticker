@@ -1,15 +1,3 @@
-extern crate prettytable;
-extern crate reqwest;
-extern crate term;
-extern crate termion;
-
-#[macro_use]
-extern crate clap;
-
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-
 mod cell;
 mod crypto;
 mod currency;
@@ -19,10 +7,11 @@ mod provider;
 
 use crate::currency::Currency;
 use crate::layout::Layout;
-use clap::App;
+use clap::{load_yaml, App};
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
+use termion;
 
 const DEFAULT_CURRENCY: &str = "usd";
 const SLEEP_DURATION: u64 = 20;

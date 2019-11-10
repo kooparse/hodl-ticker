@@ -1,3 +1,5 @@
+use serde::{Serialize, Deserialize};
+
 use crate::currency::Currency;
 use crate::helper::{format_bignum, format_percent, format_price};
 
