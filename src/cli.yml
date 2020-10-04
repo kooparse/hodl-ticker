@@ -9,10 +9,6 @@ args:
       value_name: CURRENCY
       help: Convert to your currency
       takes_value: true
-  - watch:
-      short: w
-      long: watch
-      help: Active watch mode
   - filter:
       short: f
       long: filter

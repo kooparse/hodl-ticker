@@ -1,4 +1,6 @@
-# HODL-TICKER
+# Hodl-ticker
+
+Get cryptocurrency prices from your terminal!
 
 ## Screenshot
 <img width="682" alt="screen shot 2017-12-28 at 12 22 02 pm" src="https://user-images.githubusercontent.com/2859122/34409421-07aa0a36-ebca-11e7-80e6-6c50d63e960a.png">
@@ -41,4 +43,4 @@ $ hodl-ticker -w
 You can use the `-h` (or `--help`) to find all valid options of hodl-ticker
 
 
-This project is highly inspired by coinmon: https://github.com/bichenkk/coinmon
+This project is using the great [CoinGecko API](https://www.coingecko.com/en/api).

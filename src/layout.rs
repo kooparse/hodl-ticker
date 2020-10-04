@@ -1,24 +1,22 @@
 use crate::cell::LayoutCell;
 use crate::crypto::Money;
 use crate::currency;
-use crate::currency::Currency;
 use std::collections::HashSet;
 
 use prettytable::{Row, Table};
 
-pub struct Layout<'a> {
+pub struct Layout {
     headers: Vec<String>,
     data: Vec<Money>,
     filter_list: HashSet<String>,
-    currency: Currency<'a>,
 }
 
-impl<'a> Layout<'a> {
+impl Layout {
     pub fn new(
         data: Vec<Money>,
         filter_list: Vec<&str>,
-        currency: currency::Currency<'a>,
-    ) -> Layout<'a> {
+        currency: currency::Currency,
+    ) -> Layout {
         let filter_list: HashSet<String> =
             filter_list.into_iter().map(|d| d.to_owned()).collect();
 
@@ -27,7 +25,6 @@ impl<'a> Layout<'a> {
             "coin",
             &format!("price ({})", currency.get_symbol()),
             "change (24h)",
-            "change(1h)",
             &format!("market cap ({})", currency.get_symbol()),
         ]
         .iter()
@@ -38,7 +35,6 @@ impl<'a> Layout<'a> {
             headers,
             data,
             filter_list,
-            currency,
         }
     }
 
@@ -58,27 +54,26 @@ impl<'a> Layout<'a> {
 
         table.add_row(Row::new(headers));
 
-        for item in &self.data {
-            if !&self.filter_list.is_empty()
-                && !&self.filter_list.contains(&item.name)
-            {
-                continue;
-            }
+        self.data
+            .iter()
+            .filter(|item| {
+                !(!self.filter_list.is_empty()
+                    && !self.filter_list.contains(&item.name))
+            })
+            .for_each(|item| {
+                let rank: String = format!("{}", item.rank);
+                let price: String = format!("{:.2}", item.current_price);
+                let market_cap: String = item.get_market_cap();
+                let percent_24 = item.get_percent_24();
 
-            let price = item.get_price(&self.currency);
-            let market_cap = item.get_market_cap(&self.currency);
-            let percent_24 = item.get_percent_24();
-            let percent_1 = item.get_percent_1();
-
-            table.add_row(Row::new(vec![
-                cell.set_and_build(&item.rank),
-                cell.set_and_build(&item.name),
-                cell.set(&price).bold().blue().build(),
-                cell.percent_color(percent_24).build(),
-                cell.percent_color(percent_1).build(),
-                cell.set_and_build(&market_cap),
-            ]));
-        }
+                table.add_row(Row::new(vec![
+                    cell.set_and_build(&rank),
+                    cell.set_and_build(&item.name),
+                    cell.set(&price).bold().blue().build(),
+                    cell.percent_color(percent_24).build(),
+                    cell.set_and_build(&market_cap),
+                ]));
+            });
 
         table
     }
